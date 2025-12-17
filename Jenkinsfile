@@ -6,11 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/dhina2406/devops-node-app.git'
-            }
-        }
 
         stage('Build Docker Image') {
             steps {
