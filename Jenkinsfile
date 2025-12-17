@@ -1,16 +1,28 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/dhina2406/devops-node-app'
+                git 'https://github.com/dhina2406/devops-node-app.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t dhina2406/devops-node-app:latest .'
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                sh '''
+                  echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+                '''
             }
         }
 
